@@ -4,3 +4,4 @@
 # project build artifacts
 *.o
 *.bin
+*.iso
