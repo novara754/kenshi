@@ -14,12 +14,22 @@ static void printf_(const char *format, va_list args) {
 
 			bool length = false;
 
-			while (true) {
-				if (format[ci] == 'z') {
-					length = true;
-					ci++;
-				} else {
-					break;
+			bool options = true;
+			while (options) {
+				switch (format[ci]) {
+					case 'z': {
+						length = true;
+						ci++;
+						break;
+					}
+					case 'l': {
+						ci++;
+						break;
+					}
+					default: {
+						options = false;
+						break;
+					}
 				}
 			}
 

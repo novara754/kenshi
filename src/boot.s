@@ -29,6 +29,7 @@ _start:
 
 	call kmain_early
 	call _init
+	pushl %ebx
 	call kmain
 	call _fini
 	// Create infinite loop such that the operating system doesnt suddenly quit.

@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "vga.h"
 #include "gdt.h"
+#include "multiboot.h"
 
 void kmain_early(void) {
 	vga_init();
@@ -17,11 +18,15 @@ void kmain_early(void) {
 	gdt_load();
 }
 
-void kmain(void) {
-	printf("\nKenshi is initialized and ready to go.\n\n");
-	printf("1 + 2 = %i\n", 1 + 2);
-	printf("3 - 5 = %i\n", 3 - 5);
-	char *text = "hello, world!";
-	printf("The first char of \"%s\" is '%c'.\n", text, text[0]);
-	printf("0x%x in decimal is %i", 0x2B, 0x2B);
+void kmain(multiboot_info *mb) {
+	printf("\nKenshi is initialized and ready to go.\n");
+	if (mb_flags(mb, MB_BL_NAME)) {
+		printf("Booted using %s.\n", mb->boot_loader_name);
+	} else {
+		printf("Boot loader could not be identified.\n");
+	}
+	if (mb_flags(mb, MB_MEM)) {
+		printf("Lower memory: %luKB -- Upper memory: %luKB\n", mb->mem_lower, mb->mem_upper);
+	}
+	printf("\n");
 }
