@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 #define VGA_FG(color) ((color) & 0xF)
 #define VGA_BG(color) ((color) >> 4 & 0xF)
