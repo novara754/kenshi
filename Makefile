@@ -14,6 +14,7 @@ run: all
 	qemu-system-i386 -cdrom kenshi.iso
 
 kenshi.iso: kenshi.bin
+	grub-file --is-x86-multiboot kenshi.bin
 	cp kenshi.bin ./iso/boot/kenshi.bin
 	grub-mkrescue -o kenshi.iso ./iso
 
