@@ -26,8 +26,11 @@ stack_top:
 .type _start, @function
 _start:
 	mov $stack_top, %esp
-	call kmain
 
+	call kmain_early
+	call _init
+	call kmain
+	call _fini
 	// Create infinite loop such that the operating system doesnt suddenly quit.
 	cli
 	// Although CLI disables the interrupts HLT waits for, there can still be cases in which

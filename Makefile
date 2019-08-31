@@ -3,8 +3,14 @@ CC=i686-elf-gcc
 LD=i686-elf-gcc
 CFLAGS=-c -Isrc/include -std=gnu99 -ffreestanding -Wall -Wextra -Werror -Wpedantic
 LDFLAGS=-T linker.ld -ffreestanding -nostdlib -lgcc
-LINK_LIST=src/boot.o src/kernel.o src/vga.o src/string.o src/printf.o
+
+CRTBEGIN=$(shell $(CC) $(CFLAGS) --print-file-name=crtbegin.o)
+CRTEND=$(shell $(CC) $(CFLAGS) --print-file-name=crtend.o)
+
+OBJECTS=src/kernel.o src/vga.o src/string.o src/printf.o
 HEADERS=$(wildcard src/*.h)
+
+LINK_LIST=src/boot.o src/crti.o $(CRTBEGIN) $(OBJECTS) $(CRTEND) src/crtn.o
 
 .PHONY: all
 all: kenshi.iso
