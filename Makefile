@@ -1,6 +1,6 @@
-AS=i386-elf-as
-CC=i386-elf-gcc
-LD=i386-elf-gcc
+AS=i686-elf-as
+CC=i686-elf-gcc
+LD=i686-elf-gcc
 CFLAGS=-c -Isrc/include -std=gnu99 -ffreestanding -Wall -Wextra -Werror -Wpedantic
 LDFLAGS=-T linker.ld -ffreestanding -nostdlib -lgcc
 LINK_LIST=src/boot.o src/kernel.o src/vga.o
