@@ -4,6 +4,7 @@
 
 void kmain_early(void) {
 	vga_init();
+	printf("[VGA] Initializing VGA terinal... Done\n");
 
 	// null segment, not used by cpu
 	gdt_set_entry(0, 0, 0, 0);
@@ -17,6 +18,7 @@ void kmain_early(void) {
 }
 
 void kmain(void) {
+	printf("\nKenshi is initialized and ready to go.\n\n");
 	printf("1 + 2 = %i\n", 1 + 2);
 	printf("3 - 5 = %i\n", 3 - 5);
 	char *text = "hello, world!";
