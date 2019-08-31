@@ -75,6 +75,38 @@ void vga_puts(const char *str) {
 	}
 }
 
+void vga_puti(int32_t n) {
+	// n=0 is a special case and won't work with the following algorithm.
+	if (n == 0) {
+		vga_putc('0');
+		return;
+	}
+
+	// If the number is negative we want to prefix it with a '-' and
+	// then pretend it was actually a positive number.
+	if (n < 0) {
+		vga_putc('-');
+		n *= -1;
+	}
+
+	// To be able to print the number we need to first reverse it.
+	// n % 10 essentially gives us the last digit of the number.
+	// Using this "trick" we can reverse the number here, and then use the same "trick"
+	// later when printing it.
+	int32_t rev_n = 0;
+	while (n > 0) {
+		rev_n = (rev_n * 10) + (n % 10);
+		n /= 10;
+	}
+
+	while (rev_n) {
+		int d = rev_n % 10;
+		unsigned char c = '0' + d;
+		vga_putc(c);
+		rev_n /= 10;
+	}
+}
+
 void vga_setcursor(size_t r, size_t c) {
 	row = r;
 	col = c;

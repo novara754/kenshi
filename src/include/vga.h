@@ -39,6 +39,8 @@ void vga_init(void);
 void vga_putc(char c);
 // Writes a null-terminated string.
 void vga_puts(const char *str);
+// Writes a base-10 signed 32-bit integer.
+void vga_puti(int32_t n);
 // Updates the cursor position.
 void vga_setcursor(size_t row, size_t col);
 // Gets the cursor row.
