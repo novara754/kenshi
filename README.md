@@ -4,6 +4,8 @@ A 32-bit toy operating system for self-education.
 Written in C (and some x86 assembly) for the x86 architecture.
 Uses the GRUB bootloader, but theoretically works with any bootloader that supports the multiboot standard.
 
+![screenshot.png](screenshot)
+
 ## Features
 
 ### Finished
