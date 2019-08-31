@@ -4,7 +4,7 @@
 
 void kmain_early(void) {
 	vga_init();
-	printf("[VGA] Initializing VGA terinal... Done\n");
+	printf("[VGA] Initializing VGA terminal... Done\n");
 
 	// null segment, not used by cpu
 	gdt_set_entry(0, 0, 0, 0);
