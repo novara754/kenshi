@@ -27,6 +27,12 @@ static void scroll(void) {
 			VGA_BUFFER[above_index] = VGA_BUFFER[index];
 		}
 	}
+
+	// After scrolling we also need to clear the last row, otherwise it will be there twice.
+	for (size_t x = 0; x < VGA_WIDTH; x++) {
+		const size_t index = x + (VGA_HEIGHT - 1) * VGA_WIDTH;
+		VGA_BUFFER[index] = make_entry(' ');
+	}
 }
 
 // Properly handles line-breaks (i.e., scrolls when necessary).
@@ -34,6 +40,7 @@ static void newline(void) {
 	col = 0;
 	if (++row >= VGA_HEIGHT) {
 		scroll();
+		row = VGA_HEIGHT - 1;
 	}
 }
 
