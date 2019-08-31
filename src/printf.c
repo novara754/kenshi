@@ -40,7 +40,7 @@ static void printf_(const char *format, va_list args) {
 	}
 }
 
-__attribute__((format (printf, 1, 2))) void printf(const char *format, ...) {
+void printf(const char *format, ...) {
 	va_list args;
 	va_start(args, format);
 	printf_(format, args);
