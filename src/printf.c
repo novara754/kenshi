@@ -1,5 +1,6 @@
 #include <stdarg.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include "stdio.h"
 #include "vga.h"
 #include "string.h"
@@ -8,10 +9,32 @@ static void printf_(const char *format, va_list args) {
 	int ci = 0;
 	int format_len = strlen(format);
 	while (ci < format_len) {
-		if (format[ci] == '%' && ci < (format_len - 1)) {
-			switch (format[ci + 1]) {
-				case 'i': case 'u': {
-					int32_t n = va_arg(args, int32_t);
+		if (format[ci] == '%') {
+			ci++;
+
+			bool length = false;
+
+			while (true) {
+				if (format[ci] == 'z') {
+					length = true;
+					ci++;
+				} else {
+					break;
+				}
+			}
+
+			switch (format[ci]) {
+				case 'i': case 'd': {
+					int32_t n;
+					if (length) n = va_arg(args, size_t);
+					else n = va_arg(args, int32_t);
+					vga_puti(n);
+					break;
+				}
+				case 'u': {
+					uint32_t n;
+					if (length) n = va_arg(args, size_t);
+					else n = va_arg(args, uint32_t);
 					vga_puti(n);
 					break;
 				}
@@ -32,7 +55,7 @@ static void printf_(const char *format, va_list args) {
 				}
 			}
 
-			ci += 2;
+			ci++;
 		} else {
 			vga_putc(format[ci]);
 			ci++;
