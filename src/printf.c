@@ -35,7 +35,21 @@ static void printf_(const char *format, va_list args) {
 					uint32_t n;
 					if (length) n = va_arg(args, size_t);
 					else n = va_arg(args, uint32_t);
-					vga_puti(n);
+					vga_putui(n);
+					break;
+				}
+				case 'x': {
+					uint32_t n;
+					if (length) n = va_arg(args, size_t);
+					else n = va_arg(args, uint32_t);
+					vga_puti_hex(n, true);
+					break;
+				}
+				case 'X': {
+					uint32_t n;
+					if (length) n = va_arg(args, size_t);
+					else n = va_arg(args, uint32_t);
+					vga_puti_hex(n, true);
 					break;
 				}
 				case 'c': {

@@ -41,6 +41,10 @@ void vga_putc(char c);
 void vga_puts(const char *str);
 // Writes a base-10 signed 32-bit integer.
 void vga_puti(int32_t n);
+// Writes a base-16 unsigned 32-bit integer.
+void vga_puti_hex(uint32_t n, bool capitals);
+// Writes a base-10 unsigned 32-bit integer.
+void vga_putui(uint32_t n);
 // Updates the cursor position.
 void vga_setcursor(size_t row, size_t col);
 // Gets the cursor row.

@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "vga.h"
 
 static volatile uint16_t *VGA_BUFFER = (uint16_t*)0xB8000;
@@ -76,17 +77,21 @@ void vga_puts(const char *str) {
 }
 
 void vga_puti(int32_t n) {
-	// n=0 is a special case and won't work with the following algorithm.
-	if (n == 0) {
-		vga_putc('0');
-		return;
-	}
-
 	// If the number is negative we want to prefix it with a '-' and
 	// then pretend it was actually a positive number.
 	if (n < 0) {
 		vga_putc('-');
 		n *= -1;
+	}
+
+	vga_putui(n);
+}
+
+void vga_putui(uint32_t n) {
+	// n=0 is a special case and won't work with the following algorithm.
+	if (n == 0) {
+		vga_putc('0');
+		return;
 	}
 
 	// To be able to print the number we need to first reverse it.
@@ -104,6 +109,24 @@ void vga_puti(int32_t n) {
 		unsigned char c = '0' + d;
 		vga_putc(c);
 		rev_n /= 10;
+	}
+}
+
+void vga_puti_hex(uint32_t n, bool capitals) {
+	if (n == 0) {
+		vga_putc('0');
+		return;
+	}
+
+	bool start = true;
+	for (int shift = 28; shift >= 0; shift -= 4) {
+		int d = (n >> shift) & 0xF;
+		if (d == 0 && start) continue;
+		start = false;
+		unsigned char c;
+		if (d < 10) c = '0' + d;
+		else c = (capitals ? 'A' : 'a') + d - 10;
+		vga_putc(c);
 	}
 }
 

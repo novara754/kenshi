@@ -23,4 +23,5 @@ void kmain(void) {
 	printf("3 - 5 = %i\n", 3 - 5);
 	char *text = "hello, world!";
 	printf("The first char of \"%s\" is '%c'.\n", text, text[0]);
+	printf("0x%x in decimal is %i", 0x2B, 0x2B);
 }
