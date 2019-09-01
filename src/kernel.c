@@ -2,6 +2,7 @@
 #include "vga.h"
 #include "gdt.h"
 #include "multiboot.h"
+#include "port.h"
 
 void kmain_early(void) {
 	vga_init();
@@ -28,5 +29,14 @@ void kmain(multiboot_info *mb) {
 	if (mb_flags(mb, MB_MEM)) {
 		printf("Lower memory: %luKB -- Upper memory: %luKB\n", mb->mem_lower, mb->mem_upper);
 	}
+
+	int memory;
+	port_wb(0x70, 0x30); // Ask CMOS (0x70) for lower byte of memory (0x30)
+	memory = port_rb(0x71); // Data from CMOS stored at 0x71
+	port_wb(0x70, 0x31); // Ask CMOS for higher byte of memory (0x31)
+	memory |= port_rb(0x71) << 8;
+
+	printf("CMOS memory: %iKB\n", memory);
+
 	printf("\n");
 }
