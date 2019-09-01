@@ -2,11 +2,13 @@
 #include "vga.h"
 #include "gdt.h"
 #include "multiboot.h"
-#include "port.h"
+#include "serial.h"
 
 void kmain_early(void) {
 	vga_init();
 	printf("[VGA] Initializing VGA terminal... Done\n");
+
+	serial_init(COM1, BAUD_9600);
 
 	// null segment, not used by cpu
 	gdt_set_entry(0, 0, 0, 0);
@@ -30,13 +32,8 @@ void kmain(multiboot_info *mb) {
 		printf("Lower memory: %luKB -- Upper memory: %luKB\n", mb->mem_lower, mb->mem_upper);
 	}
 
-	int memory;
-	port_wb(0x70, 0x30); // Ask CMOS (0x70) for lower byte of memory (0x30)
-	memory = port_rb(0x71); // Data from CMOS stored at 0x71
-	port_wb(0x70, 0x31); // Ask CMOS for higher byte of memory (0x31)
-	memory |= port_rb(0x71) << 8;
-
-	printf("CMOS memory: %iKB\n", memory);
+	const char *msg = "hello, serial world\n";
+	for (int i = 0; msg[i]; i++) serial_write(COM1, msg[i]);
 
 	printf("\n");
 }

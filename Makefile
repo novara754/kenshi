@@ -7,7 +7,7 @@ LDFLAGS=-T linker.ld -ffreestanding -nostdlib -lgcc
 CRTBEGIN=$(shell $(CC) $(CFLAGS) --print-file-name=crtbegin.o)
 CRTEND=$(shell $(CC) $(CFLAGS) --print-file-name=crtend.o)
 
-OBJECTS=src/kernel.o src/vga.o src/string.o src/printf.o src/gdt.o src/segment_reload.o src/multiboot.o src/port.o
+OBJECTS=src/kernel.o src/vga.o src/string.o src/printf.o src/gdt.o src/segment_reload.o src/multiboot.o src/port.o src/serial.o
 HEADERS=$(wildcard src/*.h)
 
 LINK_LIST=src/boot.o src/crti.o $(CRTBEGIN) $(OBJECTS) $(CRTEND) src/crtn.o
@@ -17,7 +17,7 @@ all: kenshi.iso
 
 .PHONY: run
 run: all
-	qemu-system-i386 -cdrom kenshi.iso
+	qemu-system-i386 -cdrom kenshi.iso -serial stdio
 
 kenshi.iso: kenshi.bin
 	grub-file --is-x86-multiboot kenshi.bin
