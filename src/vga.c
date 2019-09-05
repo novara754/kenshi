@@ -1,6 +1,6 @@
 #include <stdbool.h>
 #include "vga.h"
-#include "serial.h"
+#include "port.h"
 
 static volatile uint16_t *VGA_BUFFER = (uint16_t*)0xB8000;
 const size_t VGA_HEIGHT = 25;
@@ -58,7 +58,7 @@ void vga_init(void) {
 	}
 }
 
-void vga_putc(char c) {
+static void add_char(char c) {
 	switch (c) {
 		case '\n': {
 			newline();
@@ -96,10 +96,25 @@ void vga_putc(char c) {
 	}
 }
 
+void update_cursor() {
+	uint16_t pos = col + row * VGA_WIDTH;
+
+	port_wb(0x3D4, 0x0F);
+	port_wb(0x3D5, (uint8_t)(pos & 0xFF));
+	port_wb(0x3D4, 0x0E);
+	port_wb(0x3D5, (uint8_t)(pos >> 8));
+}
+
+void vga_putc(char c) {
+	add_char(c);
+	update_cursor();
+}
+
 void vga_puts(const char *str) {
 	for (size_t i = 0; str[i]; i++) {
 		vga_putc(str[i]);
 	}
+	update_cursor();
 }
 
 void vga_puti(int32_t n) {
