@@ -11,12 +11,13 @@ Uses the GRUB bootloader, but theoretically works with any bootloader that suppo
 ### Finished
 
 - VGA text output (support for strings and numbers, including printf)
-
-### Planned
-
 - Serial port input and output
 - Interrupt/exception handling
-- Keyboard & mouse support
+- Support for basic input via keyboard
+
+### Planned
+- Mouse support
+- Shell
 - File system
 
 ...and many more!
