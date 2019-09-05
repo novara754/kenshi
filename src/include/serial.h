@@ -16,6 +16,7 @@ typedef enum baud_rate {
 
 void serial_init(com_port port, baud_rate baud);
 void serial_write(com_port port, uint8_t data);
+void serial_writes(com_port port, const char *str);
 uint8_t serial_read(com_port port);
 
 #endif
