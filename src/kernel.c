@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "vga.h"
 #include "gdt.h"
+#include "idt.h"
 #include "multiboot.h"
 #include "serial.h"
 
@@ -19,6 +20,8 @@ void kmain_early(void) {
 	// tss
 	// gdt_set_entry(3, &tss, sizeof(tss), GDTA_ACCESSED | GDTA_EXECUTABLE | GDTA_PRESENT);
 	gdt_load();
+
+	idt_init();
 }
 
 void kmain(multiboot_info *mb) {
@@ -32,8 +35,8 @@ void kmain(multiboot_info *mb) {
 		printf("Lower memory: %luKB -- Upper memory: %luKB\n", mb->mem_lower, mb->mem_upper);
 	}
 
-	const char *msg = "hello, serial world\n";
-	for (int i = 0; msg[i]; i++) serial_write(COM1, msg[i]);
+	printf("You can do some basic typing here:\n");
 
-	printf("\n");
+	// Endless loop in which interrupts can happen.
+	while (true);
 }
