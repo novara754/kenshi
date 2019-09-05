@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include "vga.h"
+#include "serial.h"
 
 static volatile uint16_t *VGA_BUFFER = (uint16_t*)0xB8000;
 const size_t VGA_HEIGHT = 25;
@@ -58,15 +59,40 @@ void vga_init(void) {
 }
 
 void vga_putc(char c) {
-	if (c != '\n') {
-		const size_t index = col + row * VGA_WIDTH;
-		VGA_BUFFER[index] = make_entry(c);
-
-		if (++col >= VGA_WIDTH) {
+	switch (c) {
+		case '\n': {
 			newline();
+			break;
 		}
-	} else {
-		newline();
+		case '\t': {
+			// Calculate the next cell on an 8-cell boundary.
+			size_t rest = col % 8;
+			col += 8 - rest;
+			break;
+		}
+		case '\b': {
+			if (col > 0) {
+				col -= 1;
+			} else {
+				if (row > 0) {
+					row -= 1;
+					col = VGA_WIDTH - 1;
+				}
+			}
+
+			const size_t index = col + row * VGA_WIDTH;
+			VGA_BUFFER[index] = make_entry(' ');
+			break;
+		}
+		default: {
+			const size_t index = col + row * VGA_WIDTH;
+			VGA_BUFFER[index] = make_entry(c);
+
+			if (++col >= VGA_WIDTH) {
+				newline();
+			}
+			break;
+		}
 	}
 }
 
