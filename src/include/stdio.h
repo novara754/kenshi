@@ -1,6 +1,3 @@
-#ifndef KERNEL_STDIO_H
-#define KERNEL_STDIO_H
+#pragma once
 
 __attribute__((format(printf, 1, 2))) void printf(const char *format, ...);
-
-#endif

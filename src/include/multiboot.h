@@ -1,5 +1,4 @@
-#ifndef KERNEL_MULTIBOOT_H
-#define KERNEL_MULTIBOOT_H
+#pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -103,5 +102,3 @@ typedef enum multiboot_flag {
 } multiboot_flag;
 
 bool mb_flags(multiboot_info *mb, multiboot_flag flags);
-
-#endif

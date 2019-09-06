@@ -1,5 +1,4 @@
-#ifndef KERNEL_PORT_H
-#define KERNEL_PORT_H
+#pragma once
 
 #include <stdint.h>
 
@@ -11,5 +10,3 @@ uint16_t port_rw(uint16_t port);
 
 void port_wl(uint16_t port, uint32_t data);
 uint32_t port_rl(uint16_t port);
-
-#endif

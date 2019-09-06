@@ -1,5 +1,4 @@
-#ifndef KERNEL_GDT_H
-#define KERNEL_GDT_H
+#pragma once
 
 #include <stddef.h>
 #include <stdint.h>
@@ -36,5 +35,3 @@ typedef enum gdt_flag {
 
 void gdt_set_entry(size_t index, uint32_t base, uint32_t limit, uint8_t access);
 void gdt_load(void);
-
-#endif

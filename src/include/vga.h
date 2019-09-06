@@ -1,5 +1,4 @@
-#ifndef KERNEL_VGA_H
-#define KERNEL_VGA_H
+#pragma once
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -54,5 +53,3 @@ size_t vga_getcursor_row(void);
 size_t vga_getcursor_col(void);
 // Gets the color  and content of the cell at the given position (zero-indexed).
 struct cell *vga_getcell(size_t row, size_t col);
-
-#endif
