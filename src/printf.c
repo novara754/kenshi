@@ -1,9 +1,9 @@
 #include <stdarg.h>
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "stdio.h"
-#include "vga.h"
 #include "string.h"
+#include "vga.h"
 
 static void printf_(const char *format, va_list args) {
 	int ci = 0;
@@ -34,31 +34,44 @@ static void printf_(const char *format, va_list args) {
 			}
 
 			switch (format[ci]) {
-				case 'i': case 'd': {
+				case 'i':
+				case 'd': {
 					int32_t n;
-					if (length) n = va_arg(args, size_t);
-					else n = va_arg(args, int32_t);
+					if (length) {
+						n = va_arg(args, size_t);
+					} else {
+						n = va_arg(args, int32_t);
+					}
 					vga_puti(n);
 					break;
 				}
 				case 'u': {
 					uint32_t n;
-					if (length) n = va_arg(args, size_t);
-					else n = va_arg(args, uint32_t);
+					if (length) {
+						n = va_arg(args, size_t);
+					} else {
+						n = va_arg(args, uint32_t);
+					}
 					vga_putui(n);
 					break;
 				}
 				case 'x': {
 					uint32_t n;
-					if (length) n = va_arg(args, size_t);
-					else n = va_arg(args, uint32_t);
+					if (length) {
+						n = va_arg(args, size_t);
+					} else {
+						n = va_arg(args, uint32_t);
+					}
 					vga_puti_hex(n, true);
 					break;
 				}
 				case 'X': {
 					uint32_t n;
-					if (length) n = va_arg(args, size_t);
-					else n = va_arg(args, uint32_t);
+					if (length) {
+						n = va_arg(args, size_t);
+					} else {
+						n = va_arg(args, uint32_t);
+					}
 					vga_puti_hex(n, true);
 					break;
 				}

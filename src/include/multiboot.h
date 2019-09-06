@@ -1,8 +1,8 @@
 #ifndef KERNEL_MULTIBOOT_H
 #define KERNEL_MULTIBOOT_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef struct __attribute__((packed)) multiboot_device {
 	uint8_t part3;

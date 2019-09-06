@@ -1,6 +1,6 @@
-#include <stdint.h>
-#include <stddef.h>
 #include "idt.h"
+#include <stddef.h>
+#include <stdint.h>
 #include "port.h"
 #include "stdio.h"
 
@@ -27,11 +27,11 @@ void idt_set(size_t index, int (*handler)(void), uint8_t type) {
 	uint32_t h = (uint32_t)handler;
 
 	idt_gate gate = {
-		.offset_lo = h & 0xFFFF,
-		.offset_hi = (h >> 16) & 0xFFFF,
-		.type = type,
-		.reserved = 0,
-		.selector = 0x08,
+	    .offset_lo = h & 0xFFFF,
+	    .offset_hi = (h >> 16) & 0xFFFF,
+	    .type = type,
+	    .reserved = 0,
+	    .selector = 0x08,
 	};
 
 	idt[index] = gate;
@@ -76,8 +76,8 @@ void idt_init(void) {
 		uint16_t size;
 		uint32_t addr;
 	} idtd = {
-		.size = sizeof(idt_gate) * IDT_GATES,
-		.addr = (uint32_t)idt,
+	    .size = sizeof(idt_gate) * IDT_GATES,
+	    .addr = (uint32_t)idt,
 	};
 	idt_load(&idtd);
 

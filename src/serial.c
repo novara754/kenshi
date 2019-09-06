@@ -1,6 +1,6 @@
-#include <stdint.h>
-#include <stddef.h>
 #include "serial.h"
+#include <stddef.h>
+#include <stdint.h>
 #include "port.h"
 
 // Internal clock rate of serial controller (UART).
@@ -56,7 +56,7 @@ static bool serial_canwrite(com_port port) {
 }
 
 void serial_write(com_port port, uint8_t data) {
-	while (!serial_canwrite(port));
+	while (!serial_canwrite(port)) {}
 	port_wb(port + 0, data);
 }
 
@@ -72,6 +72,6 @@ static bool serial_hasdata(com_port port) {
 }
 
 uint8_t serial_read(com_port port) {
-	while (!serial_hasdata(port));
+	while (!serial_hasdata(port)) {}
 	return port_rb(port + 0);
 }

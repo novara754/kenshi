@@ -9,8 +9,8 @@ struct __attribute__((__packed__)) gdtd {
 	uint16_t size;
 	gdt_entry *offset;
 } gdtd = {
-	.size = GDT_ENTRIES * 8 - 1,
-	.offset = gdt,
+    .size = GDT_ENTRIES * 8 - 1,
+    .offset = gdt,
 };
 
 void gdt_set_entry(size_t index, uint32_t base, uint32_t limit, uint8_t access) {
@@ -40,13 +40,13 @@ void gdt_set_entry(size_t index, uint32_t base, uint32_t limit, uint8_t access) 
 	gdt[index] = entry;
 }
 
-gdt_entry* gdt_get_entry(size_t index) {
+gdt_entry *gdt_get_entry(size_t index) {
 	return &gdt[index];
 }
 
 void gdt_load(void) {
 	printf("[GDT] Loading GDT... ");
-	asm volatile("lgdt %0" :: "m" (gdtd));
+	asm volatile("lgdt %0" ::"m"(gdtd));
 	segment_reload();
 	printf("Done\n");
 }

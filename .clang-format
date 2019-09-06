@@ -1,0 +1,15 @@
+Language: Cpp
+BasedOnStyle: LLVM
+UseTab: ForIndentation
+IndentWidth: 8
+ConstructorInitializerIndentWidth: 8
+ColumnLimit: 120
+IndentCaseLabels: true
+AllowShortFunctionsOnASingleLine: false
+AllowShortBlocksOnASingleLine: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+IncludeCategories:
+  - Regex: '^<.*\.h>$'
+    Priority: 1
+  - Regex: '^".*\.h"$'
+    Priority: 2

@@ -1,11 +1,11 @@
 #ifndef KERNEL_VGA_H
 #define KERNEL_VGA_H
 
-#include <stdint.h>
-#include <stddef.h>
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
-#define VGA_FG(color) ((color) & 0xF)
+#define VGA_FG(color) ((color)&0xF)
 #define VGA_BG(color) ((color) >> 4 & 0xF)
 
 // Possible colours for VGA textmode.
@@ -53,6 +53,6 @@ size_t vga_getcursor_row(void);
 // Gets the cursor column.
 size_t vga_getcursor_col(void);
 // Gets the color  and content of the cell at the given position (zero-indexed).
-struct cell* vga_getcell(size_t row, size_t col);
+struct cell *vga_getcell(size_t row, size_t col);
 
 #endif

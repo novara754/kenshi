@@ -1,8 +1,8 @@
-#include <stdbool.h>
 #include "vga.h"
+#include <stdbool.h>
 #include "port.h"
 
-static volatile uint16_t *VGA_BUFFER = (uint16_t*)0xB8000;
+static volatile uint16_t *VGA_BUFFER = (uint16_t *)0xB8000;
 const size_t VGA_HEIGHT = 25;
 const size_t VGA_WIDTH = 80;
 
@@ -25,7 +25,7 @@ static void scroll(void) {
 	for (size_t y = 1; y < VGA_HEIGHT; y++) {
 		for (size_t x = 0; x < VGA_WIDTH; x++) {
 			const size_t index = x + y * VGA_WIDTH;
-			const size_t above_index = x + (y-1) * VGA_WIDTH;
+			const size_t above_index = x + (y - 1) * VGA_WIDTH;
 			VGA_BUFFER[above_index] = VGA_BUFFER[index];
 		}
 	}
@@ -162,11 +162,16 @@ void vga_puti_hex(uint32_t n, bool capitals) {
 	bool start = true;
 	for (int shift = 28; shift >= 0; shift -= 4) {
 		int d = (n >> shift) & 0xF;
-		if (d == 0 && start) continue;
+		if (d == 0 && start) {
+			continue;
+		}
 		start = false;
 		unsigned char c;
-		if (d < 10) c = '0' + d;
-		else c = (capitals ? 'A' : 'a') + d - 10;
+		if (d < 10) {
+			c = '0' + d;
+		} else {
+			c = (capitals ? 'A' : 'a') + d - 10;
+		}
 		vga_putc(c);
 	}
 }
@@ -184,7 +189,7 @@ inline size_t vga_getcursor_col(void) {
 	return col;
 }
 
-inline cell* vga_getcell(size_t row, size_t col) {
+inline cell *vga_getcell(size_t row, size_t col) {
 	const size_t index = col + row * VGA_WIDTH;
-	return (cell*)&VGA_BUFFER[index];
+	return (cell *)&VGA_BUFFER[index];
 }

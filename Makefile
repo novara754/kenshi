@@ -40,3 +40,7 @@ kenshi.bin: $(LINK_LIST)
 .PHONY: clean
 clean:
 	rm -rf src/*.o kenshi.bin kenshi.iso
+
+.PHONY: format
+format:
+	clang-format -style=file -verbose -i src/*.c src/include/*.h

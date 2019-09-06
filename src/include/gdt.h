@@ -1,8 +1,8 @@
 #ifndef KERNEL_GDT_H
 #define KERNEL_GDT_H
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 // null segment, kernel code segment, kernel data segment, user code segment, user data segment, tss.
 #define GDT_ENTRIES 6

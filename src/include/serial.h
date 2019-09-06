@@ -2,6 +2,7 @@
 #define KERNEL_SERIAL_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef enum com_port {
 	COM1 = 0x3F8,

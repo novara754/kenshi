@@ -1,9 +1,9 @@
-#include "stdio.h"
-#include "vga.h"
 #include "gdt.h"
 #include "idt.h"
 #include "multiboot.h"
 #include "serial.h"
+#include "stdio.h"
+#include "vga.h"
 
 void kmain_early(void) {
 	vga_init();
@@ -38,5 +38,5 @@ void kmain(multiboot_info *mb) {
 	printf("You can do some basic typing here:\n");
 
 	// Endless loop in which interrupts can happen.
-	while (true);
+	while (true) {}
 }
