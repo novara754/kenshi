@@ -1,8 +1,10 @@
 #include "gdt.h"
 #include "idt.h"
+#include "keyboard.h"
 #include "multiboot.h"
 #include "serial.h"
 #include "stdio.h"
+#include "string.h"
 #include "vga.h"
 
 void kmain_early(void) {
@@ -35,8 +37,22 @@ void kmain(multiboot_info *mb) {
 		printf("Lower memory: %luKB -- Upper memory: %luKB\n", mb->mem_lower, mb->mem_upper);
 	}
 
-	printf("You can do some basic typing here:\n");
-
-	// Endless loop in which interrupts can happen.
-	while (true) {}
+	printf("\nEnter `help' for a list of commands.\n");
+	while (true) {
+		char buffer[80] = {0};
+		printf("> ");
+		kb_gets(buffer, 80);
+		char *command = strtok(buffer, " \n");
+		if (strcmp(command, "help") == 0) {
+			printf("Available commands: help, echo, cls.\n");
+		} else if (strcmp(command, "cls") == 0) {
+			vga_init();
+		} else if (strcmp(command, "echo") == 0) {
+			char *text = command + 5;
+			printf("%s\n", text);
+		} else {
+			printf("Unknown command `%s'.\n", command);
+			printf("Enter `help' for a list of commands.\n");
+		}
+	}
 }

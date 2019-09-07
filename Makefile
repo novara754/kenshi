@@ -11,7 +11,7 @@ CRTEND=$(shell $(CC) $(CFLAGS) --print-file-name=crtend.o)
 OBJECTS=src/kernel.o src/vga.o src/string.o src/printf.o \
 		src/gdt.o src/segment_reload.o src/multiboot.o \
 		src/port.o src/serial.o src/idt.o src/irq.o src/keyboard.o \
-		src/char.o
+		src/char.o src/math.o
 HEADERS=$(wildcard src/*.h)
 
 LINK_LIST=src/boot.o src/crti.o $(CRTBEGIN) $(OBJECTS) $(CRTEND) src/crtn.o

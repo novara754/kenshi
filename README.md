@@ -14,10 +14,11 @@ Uses the GRUB bootloader, but theoretically works with any bootloader that suppo
 - Serial port input and output
 - Interrupt/exception handling
 - Support for basic input via keyboard
+- Very basic shell
 
 ### Planned
 - Mouse support
-- Shell
+- Advanced shell
 - File system
 
 ...and many more!

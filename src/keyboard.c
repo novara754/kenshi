@@ -51,7 +51,10 @@ char keymap[128] = {
     VK_F11,  VK_F12,
 };
 
-static char add_shift(char c) {
+static char translate(char c) {
+	if (!shift_held)
+		return c;
+
 	char *digits = ")!@#$%^*(";
 
 	if (isdigit(c)) {
@@ -90,6 +93,14 @@ static char add_shift(char c) {
 	return c;
 }
 
+// Keeping track of the last character entered via the keyboard.
+static volatile char last_write = 0;
+// Keeping track of whether kb_getc is currently waiting for a character to read.
+static volatile bool pending = false;
+// Keeping track of how many characters have been read with kb_gets, so that BACKSPACE
+// can not go too far back.
+static volatile size_t counter = 0;
+
 // Handle keyboard IRQ
 void keyboard_handler(void) {
 	port_wb(0x20, 0x20); // EOI
@@ -111,16 +122,53 @@ void keyboard_handler(void) {
 				break;
 			}
 			default: {
-				char key = keymap[keycode];
-				if (!isprinting(key) && key != VK_ENTER && key != VK_BACKSPACE && key != VK_TAB) {
+				if (!pending) {
 					return;
 				}
-				if (shift_held) {
-					key = add_shift(key);
+
+				char key = translate(keymap[keycode]);
+				if (isprinting(key) || key == VK_ENTER || key == VK_BACKSPACE) {
+					last_write = key;
+					pending = false;
+					if (key == VK_BACKSPACE && counter > 0) {
+						vga_putc(key);
+						counter--;
+					} else if (key != VK_BACKSPACE) {
+						vga_putc(key);
+						counter++;
+					}
 				}
-				vga_putc(key);
 				break;
 			}
 		}
 	}
+}
+
+static void kb_flush(void) {
+	counter = 0;
+}
+
+char kb_getc(void) {
+	pending = true;
+	while (pending) {}
+	return last_write;
+}
+
+size_t kb_gets(char *buf, size_t buf_size) {
+	kb_flush();
+	char *start = buf;
+	char c;
+	size_t len = 0;
+	while ((c = kb_getc()) != '\n' && len < buf_size - 1) {
+		if (c == '\b' && buf > start) {
+			*buf = 0;
+			buf--;
+		} else {
+			*buf = c;
+			buf++;
+			len++;
+		}
+	}
+	kb_flush();
+	return len;
 }
